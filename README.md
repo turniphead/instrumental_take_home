@@ -20,7 +20,7 @@ import time
 
 import event_counter
 
-# initialize an event counter with a maximum lookback timespan of 5 minutes.
+# instantiate an event counter with a maximum lookback timespan of 5 minutes.
 counter = event_counter.EventCounter(300)
 
 # record an event using the current timestamp
@@ -32,7 +32,7 @@ counter.record_event(number_of_events=45)
 # whoops, we forgot to record an event that happened 20s ago, so we should record this event using a custom timestamp
 counter.record_event(timestamp=time.time() - 20)
 
-# request all events that happened in the past x seconds (must be no larger than the maximum timespan entered during initialization).
+# request all events that happened in the past x seconds (must be no larger than the maximum timespan entered during instantiation).
 print('Total events that happened in the past 5 minutes: {}'.format(counter.request_event_count(300)))
 
 ```

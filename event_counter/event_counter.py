@@ -71,7 +71,7 @@ class EventCounter:
 
         Args:
             timespan: The amount of time to look back when counting events. Must be less than or equal to max_timespan
-                given during initialization.
+                given during EventCounter instantiation.
 
         Returns:
             The number of events that have happened in the past `timespan` seconds.
@@ -79,7 +79,7 @@ class EventCounter:
         if timespan > self._max_timespan:
             raise ValueError(
                 'Timespan requested ({} seconds) was greater than the max timespan provided during EventCounter '
-                'initialization ({} seconds)'.format(timespan, self._max_timespan)
+                'instantiation ({} seconds)'.format(timespan, self._max_timespan)
             )
         elif timespan <= 0:
             return 0
