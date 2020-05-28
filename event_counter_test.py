@@ -9,6 +9,14 @@ import event_counter
 
 def mock_time(desired_time):
     # type: (float) -> Any
+    """Create a patch object to patch time.time so it returns any time we want.
+
+    Args:
+        desired_time: The time we want to get when time.time() is called.
+
+    Returns:
+        The patch object, usable with "with".
+    """
     return mock.patch.object(time, 'time', return_value=desired_time)
 
 
@@ -46,6 +54,7 @@ def test_request_timespan_with_multiple_events():
 
 
 def test_multiple_events_during_same_second():
+    # type: () -> None
     counter = event_counter.EventCounter(60)
     for t in range(100, 120):
         event_time = t / 10.0
@@ -72,6 +81,7 @@ def test_multiple_event_addition_at_once():
 
 
 def test_not_counting_events_once_past_max_timespan():
+    # type: () -> None
     max_timespan = 10
     counter = event_counter.EventCounter(max_timespan)
     # note: last number in this list must round down, otherwise this test will fail due to rounding / resolution. See
@@ -84,6 +94,7 @@ def test_not_counting_events_once_past_max_timespan():
 
 
 def test_rounding_down_due_to_resolution_includes_extra_events():
+    # type: () -> None
     counter = event_counter.EventCounter(10)
     event_times = [13.0, 13.2, 13.3, 13.9, 14.1, 14.2, 15.0, 15.49]
     record_event_times(counter, event_times)
@@ -92,6 +103,7 @@ def test_rounding_down_due_to_resolution_includes_extra_events():
 
 
 def test_rounding_up_due_to_resolution_misses_some_events():
+    # type: () -> None
     counter = event_counter.EventCounter(10)
     event_times = [13.0, 13.2, 13.3, 13.9, 14.1, 14.2, 15.0, 15.49, 15.9, 16.0]
     record_event_times(counter, event_times)
@@ -101,6 +113,7 @@ def test_rounding_up_due_to_resolution_misses_some_events():
 
 
 def test_event_counted_when_same_time_as_request():
+    # type: () -> None
     counter = event_counter.EventCounter()
     with mock_time(5432.1):
         counter.record_event()
@@ -108,6 +121,7 @@ def test_event_counted_when_same_time_as_request():
 
 
 def test_returns_zero_when_nonpositive_request_timespan():
+    # type: () -> None
     counter = event_counter.EventCounter()
     event_times = [1, 2, 3, 4, 5]
     record_event_times(counter, event_times)
@@ -117,6 +131,7 @@ def test_returns_zero_when_nonpositive_request_timespan():
 
 
 def test_old_event_doesnt_affect_count():
+    # type: () -> None
     max_timespan = 10
     counter = event_counter.EventCounter(max_timespan)
     start_time = 20
@@ -130,6 +145,7 @@ def test_old_event_doesnt_affect_count():
 
 
 def test_raises_value_error_when_requested_timespan_too_large():
+    # type: () -> None
     max_timespan = 10
     counter = event_counter.EventCounter(max_timespan)
     with pytest.raises(ValueError):
@@ -137,6 +153,7 @@ def test_raises_value_error_when_requested_timespan_too_large():
 
 
 def test_raises_value_error_when_recorded_event_is_from_the_future():
+    # type: () -> None
     counter = event_counter.EventCounter(10)
     current_time = 500
     with mock_time(current_time):
