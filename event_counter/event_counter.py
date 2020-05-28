@@ -63,7 +63,7 @@ class EventCounter:
         seconds before (now - timespan), or missing some events that happened N seconds after (now - timespan), where
         the maximum value of N is 0.5.
         Example 1: If the current time is 15.49, and we request events for the past 2 seconds, we will tally all events
-            that took place during "13.x", "14.x", and "15.x". Events that happened 13 <= x < 13.49 are extra events
+            that took place during "13.x", "14.x", and "15.x". Events that happened 13 <= x < 13.49 are "extra" events
             that would not be tallied with a finer resolution.
         Example 2: If the current time is 16, and we request events for the past 2.5 seconds, we will tally all events
             that took place during "14.x", "15.x", and "16.x". Events that happened 13.5 <= x < 14 are "missed" events
