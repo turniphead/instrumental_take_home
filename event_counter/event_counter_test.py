@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-import event_counter
+from event_counter import event_counter
 
 
 def mock_time(desired_time):
